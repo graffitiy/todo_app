@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:todo/pages/todos.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:todo/app/data/services/storage/services.dart';
+import 'package:todo/app/modules/home/view.dart';
+import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
+  await Get.putAsync(() => StorageService().init());
   runApp(const MyApp());
 }
 
@@ -10,61 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TODOS',
+    return const GetMaterialApp(
+      title: 'TODOS using GetX',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const TodosPage(),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int counter = 0;
-
-  void increment() {
-    setState(() {
-      counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
